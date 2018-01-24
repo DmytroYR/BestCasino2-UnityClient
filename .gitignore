@@ -3,3 +3,5 @@ Library/
 BestCasino2-UnityClient.sln
 BestCasino2-UnityClient.csproj
 .vs/BestCasino2-UnityClient/v14/.suo
+bin/
+Assets/AssetBundleSample/

@@ -18,9 +18,9 @@ public class reelManager : MonoBehaviour {
     public AnimationCurve speed_modifier_Start;
     public AnimationCurve speed_modifier_Stop;
 
-    public float max_symbols = 40;
+    //public float max_symbols = 40;
+    public float spin_time = 10;//seconds until transition to last spin
 
-    public float pull_down_time;
     public float pull_up_time = 1;
     public float bounce_time = 2;
     public float anticipation_max_addition;
@@ -59,7 +59,7 @@ public class reelManager : MonoBehaviour {
         {
             symbols[j].transform.position = Vector3.Lerp(startMarker.position, endMarker.position, 1f / symbols.Length * j);
             symbols[j].reelPosition = 1f / symbols.Length * j;
-            var a = (float)spin_reel[reelPosition] / 10f;
+            
             symbols[j].GetComponent<Animator>().Play("symbol_anim", 0, (float)spin_reel[reelPosition]/10f);
             reelPosition++;
 
@@ -114,11 +114,13 @@ public class reelManager : MonoBehaviour {
                     symbols_passed++;
                     stoptime = totalTime;
 
-                    if (symbols_passed >=  (max_symbols + (anticipationActive ? anticipation_max_addition : 0) ) )
+
+                    //if (symbols_passed >=  (max_symbols + (anticipationActive ? anticipation_max_addition : 0) ) )
+                    if (totalTime >= spin_time)
                     {
                         if (result_position != -1)
                         {
-                            symbols_passed = max_symbols;
+                            symbols_passed = 0;// max_symbols;
                             spinning = false;
                             last_spin = true;
                         }
@@ -165,8 +167,8 @@ public class reelManager : MonoBehaviour {
                     orderSymbols.Insert(0, i);
                     fracJourney = fracJourney - 1;
                     symbols[i].transform.position = Vector3.Lerp(startMarker.position, endMarker.position, fracJourney);
-                    //symbols[i].GetComponent<Animator>().Play("symbol_anim", 0, (symbols_passed - max_symbols) / 10);
                     symbols[i].GetComponent<Animator>().Play("symbol_anim", 0, (float) result_reel[result_position] / 10);
+
                     result_position++;
                     if (result_position == result_reel.Length) result_position = 0;
                 }
@@ -175,13 +177,15 @@ public class reelManager : MonoBehaviour {
 
                 symbols[i].reelPosition = fracJourney;
 
-                if (symbols_passed == max_symbols + symbols.Length + (anticipationActive ? anticipation_max_addition : 0))
+                //if (symbols_passed == max_symbols + symbols.Length + (anticipationActive ? anticipation_max_addition : 0))
+                if (symbols_passed == symbols.Length )
                 {
                     break;
                 }
             }
 
-            if (symbols_passed == max_symbols + symbols.Length + (anticipationActive ? anticipation_max_addition : 0) )
+            //if (symbols_passed == max_symbols + symbols.Length + (anticipationActive ? anticipation_max_addition : 0) )
+            if (symbols_passed == symbols.Length )
             {
                 for (int j = 0; j < symbols.Length; j++)
                 {
@@ -232,7 +236,8 @@ public class reelManager : MonoBehaviour {
             
             spinning = false;
             anticipationActive = false;
-            symbols_passed = max_symbols;
+            symbols_passed = 0;
+            //symbols_passed = max_symbols;
         }
     }
     
