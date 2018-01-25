@@ -1,0 +1,75 @@
+ManifestFileVersion: 0
+CRC: 4116119337
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: fd510748bd629577ea35d7bafe9e557e
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: b365ca709391965d32fef983c83492bd
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 74
+  Script: {instanceID: 0}
+- Class: 91
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/disco7/discoseven_icon11.png
+- Assets/disco7/discoseven_icon3_001_animation.png
+- Assets/disco7/discoseven_icon2_001_animation.png
+- Assets/disco7/discoseven_decreaseBet_btn_off.png
+- Assets/disco7/discoseven_line6.png
+- Assets/disco7/discoseven_line5.png
+- Assets/disco7/discoseven_line9.png
+- Assets/disco7/discoseven_icon2_006_animation.png
+- Assets/disco7/discoseven_auto_btn_pressed.png
+- Assets/disco7/discoseven_icon2_005_animation.controller
+- Assets/disco7/discoseven_icon8.png
+- Assets/disco7/discoseven_line3.png
+- Assets/disco7/discoseven_line2.png
+- Assets/disco7/discoseven_icon11.controller
+- Assets/disco7/discoseven_sideLights_big.png
+- Assets/disco7/discoseven_frame_big.png
+- Assets/disco7/discoseven_line1.png
+- Assets/disco7/discoseven_stop_btn_off.png
+- Assets/disco7/discoseven_reels_big.png
+- Assets/disco7/discoseven_icon2_005_animation.png
+- Assets/disco7/disco_background.png
+- Assets/disco7/discoseven_line7.png
+- Assets/disco7/discoseven_icon2_002_animation.png
+- Assets/disco7/crown_anim.anim
+- Assets/disco7/discoseven_stop_btn_on.png
+- Assets/disco7/discoseven_auto_btn_off.png
+- Assets/disco7/discoseven_line4.png
+- Assets/disco7/discoseven_line8.png
+- Assets/disco7/discoseven_spin_btn_on.png
+- Assets/disco7/discoseven_icon7.png
+- Assets/disco7/symbol_anim.anim
+- Assets/disco7/discoseven_frame_small.png
+- Assets/disco7/discoseven_icon9.png
+- Assets/disco7/discoseven_decreaseBet_btn_on.png
+- Assets/disco7/discoseven_icon5.png
+- Assets/disco7/discoseven_icon10.png
+- Assets/disco7/discoseven_auto_btn_on.png
+- Assets/disco7/discoseven_icon2_004_animation.png
+- Assets/disco7/discoseven_background.png
+- Assets/disco7/discoseven_icon2_007_animation.png
+- Assets/disco7/discoseven_icon2.png
+- Assets/disco7/discoseven_icon2_003_animation.png
+- Assets/disco7/discoseven_increaseBet_btn_on.png
+- Assets/disco7/discoseven_icon3_004_animation.png
+- Assets/disco7/discoseven_icon3_003_animation.png
+- Assets/disco7/discoseven_stop_btn_pressed.png
+- Assets/disco7/discoseven_icon3.png
+- Assets/disco7/discoseven_spin_btn_off.png
+- Assets/disco7/discoseven_icon1.png
+- Assets/disco7/discoseven_icon12.png
+- Assets/disco7/discoseven_icon6.png
+- Assets/disco7/discoseven_spin_btn_pressed.png
+- Assets/disco7/discoseven_icon3_002_animation.png
+- Assets/disco7/discoseven_increaseBet_btn_off.png
+Dependencies: []

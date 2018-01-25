@@ -6,6 +6,10 @@ public class reelManager : MonoBehaviour {
 
     public int[] spin_reel = { 0, 0, 0, 1, 1, 1, 2, 2, 2,3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6,  7, 7, 7, 8, 8, 8, 9, 9, 9,10,10, 10 };
     public int[] result_reel = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+    public Sprite[] temp_symbols;
+    public Sprite[] temp_animation_crown;
+    public Sprite[] temp_animation_girl;
+
     public int result_position = -1;
 
 
@@ -58,9 +62,16 @@ public class reelManager : MonoBehaviour {
         for (int j = 0; j < symbols.Length; j++)
         {
             symbols[j].transform.position = Vector3.Lerp(startMarker.position, endMarker.position, 1f / symbols.Length * j);
-            symbols[j].reelPosition = 1f / symbols.Length * j;
             
-            symbols[j].GetComponent<Animator>().Play("symbol_anim", 0, (float)spin_reel[reelPosition]/10f);
+            //symbols[j].reelPosition = 1f / symbols.Length * j;
+
+            //symbols[j].GetComponent<Animator>().Play("symbol_anim", 0, (float)spin_reel[reelPosition]/10f);
+            symbols[j].initalize(temp_symbols, spin_reel[reelPosition]);
+            symbols[j].addAnimation(temp_animation_girl,2);
+            symbols[j].addAnimation(temp_animation_crown, 1);
+            //symbols[j].setOrdinal(spin_reel[reelPosition]);
+
+
             reelPosition++;
 
             if (reelPosition == spin_reel.Length) reelPosition = 0;
@@ -131,8 +142,9 @@ public class reelManager : MonoBehaviour {
 
                         if (reelPosition == spin_reel.Length) reelPosition = 0;
 
-                        symbols[i].GetComponent<Animator>().Play("symbol_anim", 0, (float)spin_reel[reelPosition] / 10f);
-                        //symbols[i].GetComponent<Animator>().Play("symbol_anim", 0, Random.Range(0f, 1f));
+                        //symbols[i].GetComponent<Animator>().Play("symbol_anim", 0, (float)spin_reel[reelPosition] / 10f);
+                        symbols[i].setOrdinal(spin_reel[reelPosition]);
+
                     }
                 }
                 else if (fracJourney < 0)
@@ -142,8 +154,8 @@ public class reelManager : MonoBehaviour {
 
                     if (reelPosition == -1) reelPosition = spin_reel.Length - 1;
 
-                    symbols[i].GetComponent<Animator>().Play("symbol_anim", 0, (float)spin_reel[reelPosition] / 10f);
-                    //symbols[i].GetComponent<Animator>().Play("symbol_anim", 0, Random.Range(0f, 1f));
+                    //symbols[i].GetComponent<Animator>().Play("symbol_anim", 0, (float)spin_reel[reelPosition] / 10f);
+                    symbols[i].setOrdinal(spin_reel[reelPosition]);
                 }
 
 
@@ -167,8 +179,8 @@ public class reelManager : MonoBehaviour {
                     orderSymbols.Insert(0, i);
                     fracJourney = fracJourney - 1;
                     symbols[i].transform.position = Vector3.Lerp(startMarker.position, endMarker.position, fracJourney);
-                    symbols[i].GetComponent<Animator>().Play("symbol_anim", 0, (float) result_reel[result_position] / 10);
-
+                    //symbols[i].GetComponent<Animator>().Play("symbol_anim", 0, (float) result_reel[result_position] / 10);
+                    symbols[i].setOrdinal(result_reel[result_position],true);
                     result_position++;
                     if (result_position == result_reel.Length) result_position = 0;
                 }

@@ -1,0 +1,15 @@
+ManifestFileVersion: 0
+CRC: 1494127389
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 6c5d88096a71fd3c227e48e55e5eb4b4
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 31d6cfe0d16ae931b73c59d7e0c089c0
+HashAppended: 0
+ClassTypes: []
+Assets:
+- Assets/AssetBundleSample/SampleAssets/Variants/VariantScene.unity
+Dependencies:
+- C:/Users/asi.epshtain/Documents/BestCasino2-UnityClient/AssetBundles/WebGL/variants/myassets.hd
