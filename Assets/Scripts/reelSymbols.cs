@@ -4,34 +4,40 @@ using UnityEngine;
 
 public class reelSymbols : MonoBehaviour
 {
-    public Sprite[] images;
-    public Dictionary<int, Sprite[]> animations = new Dictionary<int, Sprite[]>();
+    private Sprite[] images;
+    //public Dictionary<int, Sprite[]> animations = new Dictionary<int, Sprite[]>();
     public int ordinal; // image identifier
     public float reelPosition;  // location of symobl on path between reel start and end point - o to 1 
 
-    private SpriteRenderer spriteRenderer;
+    public SpriteRenderer baseSprite;
+
     
+
     // ANIMATION Variables
     private Sprite[] activeAnim;
     private int animFrame;
     private bool animating;
-    
+
+    private Animator animator;
+    private AnimatorOverrideController animatorOverrideController;
+
     void Start( )
     {
         
     }
 
-    public void initalize(Sprite[] i, int o)
+    public void initalize( int o)
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        images = i;
+        images = SymbolManager.Instance.symbols;
+
+        animator = baseSprite.GetComponent<Animator>();
+        animatorOverrideController = new AnimatorOverrideController(animator.runtimeAnimatorController);
+        animator.runtimeAnimatorController = animatorOverrideController;
+        animator.enabled = false;
+
         setOrdinal(o);
     }
 
-    public void addAnimation(Sprite[] anim, int ordinal)
-    {
-        animations.Add(ordinal, anim);
-    }
 
     public void setOrdinal(int value, bool animated = false)
     {
@@ -45,10 +51,10 @@ public class reelSymbols : MonoBehaviour
             if (images[ordinal] == null )
             {
                 Debug.Log("symbol not found");
-                spriteRenderer.sprite = null; 
+                baseSprite.sprite = null; 
             }
             else
-            spriteRenderer.sprite = images[ordinal];
+                baseSprite.sprite = images[ordinal];
         }
         else
             animStart();
@@ -57,11 +63,18 @@ public class reelSymbols : MonoBehaviour
 
     public void animStart()
     {
-        if ( animations.ContainsKey(ordinal)  )
+        if ( SymbolManager.Instance.animations.ContainsKey(ordinal)  )
         {
             animating = true;
-            activeAnim = animations[ordinal];
-            animFrame = 0;
+            animator.enabled = true;
+            animatorOverrideController["Idle"] = SymbolManager.Instance.animations[ordinal];
+            baseSprite.GetComponent<Animator>().Play("Idle");
+            //activeAnim = animations[ordinal];
+            //animFrame = 0;
+        }
+        else
+        {
+            baseSprite.sprite = images[ordinal];
         }
         
     }
@@ -69,7 +82,8 @@ public class reelSymbols : MonoBehaviour
     public void animStop()
     {
         animating = false;
-  
+        animator.enabled = false;
+        baseSprite.sprite = images[ordinal];
     }
 
 
@@ -77,16 +91,16 @@ public class reelSymbols : MonoBehaviour
       // Update is called once per frame
     void Update()
     {
-       if (animating)
+/*       if (animating)
         {
             slowdown++;
             if ( slowdown == 5)
             {
                 slowdown = 0;
-                spriteRenderer.sprite = activeAnim[animFrame];
+                baseSprite.sprite = activeAnim[animFrame];
                 animFrame++;
                 if (animFrame == activeAnim.Length) animFrame = 0;
             }
-        }
+        }*/
     }
 }
