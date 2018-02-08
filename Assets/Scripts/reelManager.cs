@@ -1,33 +1,30 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class reelManager : MonoBehaviour {
 
-    public int[] spin_reel; //= { 0, 0, 0, 1, 1, 1, 2, 2, 2,3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6,  7, 7, 7, 8, 8, 8, 9, 9, 9,10,10, 10 };
-    public int[] result_reel;// = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+    public int[] spin_reel; 
+    public int[] result_reel;
     public Sprite[] temp_symbols;
     
     public int result_position = -1;
 
-
     public reelSymbols[] symbols;
     public Transform startMarker;
     public Transform endMarker;
-
-
+    
     public float spin_speed = 4;
     public AnimationCurve speed_modifier_Start;
     public AnimationCurve speed_modifier_Stop;
 
-    //public float max_symbols = 40;
     public float spin_time = 10;//seconds until transition to last spin
 
     public float pull_up_time = 1;
     public float bounce_time = 2;
     public float anticipation_max_addition;
     public float anticipation_speed_mul;
-
 
     public bool spinning = false;
 
@@ -41,16 +38,18 @@ public class reelManager : MonoBehaviour {
     private float journeyLength;
     private float totalTime;
     private float spinModifier = 1;
-    private float symbols_passed;
+    private int symbols_passed;
     private float stoptime = 0f;
     private List<int> orderSymbols = new List<int>();
 
     private int reelPosition;
+    private List<int> result_symbols;
 
-    // Use this for initialization
     void Start() {
         journeyLength = Vector3.Distance(startMarker.position, endMarker.position);
         totalTime = 0;
+        //initalize(Random.Range(0, 20));
+        //spin();
     }
 
     public void initalize(int startPosition)
@@ -98,10 +97,7 @@ public class reelManager : MonoBehaviour {
 
             for (int i = 0; i < symbols.Length; i++)
             {
-                //float distanceToEndpoint = symbols[i].reelPosition;
-
-
-                float fracJourney = symbols[i].reelPosition;//  1 - distanceToEndpoint / journeyLength;
+                float fracJourney = symbols[i].reelPosition;
 
                 if (anticipationActive )
                     fracJourney += Time.deltaTime * spin_speed * spinModifier * anticipation_speed_mul;
@@ -114,11 +110,9 @@ public class reelManager : MonoBehaviour {
                     symbols_passed++;
                     stoptime = totalTime;
 
-
-                    //if (symbols_passed >=  (max_symbols + (anticipationActive ? anticipation_max_addition : 0) ) )
-                    if (totalTime >= spin_time)
+                    if (totalTime >= spin_time) // Buildup animation
                     {
-                        if (result_position != -1)
+                        if (result_symbols.Count > 0 )
                         {
                             symbols_passed = 0;// max_symbols;
                             spinning = false;
@@ -128,10 +122,8 @@ public class reelManager : MonoBehaviour {
                     else
                     {
                         reelPosition++;
-
                         if (reelPosition == spin_reel.Length) reelPosition = 0;
 
-                        //symbols[i].GetComponent<Animator>().Play("symbol_anim", 0, (float)spin_reel[reelPosition] / 10f);
                         symbols[i].setOrdinal(spin_reel[reelPosition]);
 
                     }
@@ -140,10 +132,8 @@ public class reelManager : MonoBehaviour {
                 {
                     fracJourney = fracJourney + 1;
                     reelPosition--;
-
                     if (reelPosition == -1) reelPosition = spin_reel.Length - 1;
-
-                    //symbols[i].GetComponent<Animator>().Play("symbol_anim", 0, (float)spin_reel[reelPosition] / 10f);
+                    
                     symbols[i].setOrdinal(spin_reel[reelPosition]);
                 }
 
@@ -168,10 +158,13 @@ public class reelManager : MonoBehaviour {
                     orderSymbols.Insert(0, i);
                     fracJourney = fracJourney - 1;
                     symbols[i].transform.position = Vector3.Lerp(startMarker.position, endMarker.position, fracJourney);
-                    //symbols[i].GetComponent<Animator>().Play("symbol_anim", 0, (float) result_reel[result_position] / 10);
-                    symbols[i].setOrdinal(result_reel[result_position],true);
-                    result_position++;
-                    if (result_position == result_reel.Length) result_position = 0;
+
+                    // SETTING OF SYMBOLS THAT WILL DISPLAYED AFTER STOP
+                    if (result_symbols[result_symbols.Count - symbols_passed] == -1)
+                        symbols[i].setOrdinal(spin_reel[reelPosition], true);
+                    else
+                        symbols[i].setOrdinal(result_symbols[result_symbols.Count - symbols_passed], true);
+
 
                 }
                 else
@@ -179,15 +172,13 @@ public class reelManager : MonoBehaviour {
 
                 symbols[i].reelPosition = fracJourney;
 
-                //if (symbols_passed == max_symbols + symbols.Length + (anticipationActive ? anticipation_max_addition : 0))
-                if (symbols_passed == symbols.Length )
+                if (symbols_passed == symbols.Length) // Build animation adjustment
                 {
                     break;
                 }
             }
 
-            //if (symbols_passed == max_symbols + symbols.Length + (anticipationActive ? anticipation_max_addition : 0) )
-            if (symbols_passed == symbols.Length )
+            if (symbols_passed == symbols.Length) // Build animation adjustment
             {
                 for (int j = 0; j < symbols.Length; j++)
                 {
@@ -221,11 +212,21 @@ public class reelManager : MonoBehaviour {
     }
 
 
-    public void spin()
+    public void spin( )
     {
-         if ( !spinning && !last_spin && !bounce )
-        spinning = true;
-        result_position = Random.Range(0, result_reel.Length);
+        if ( !spinning && !last_spin && !bounce )
+        {
+            spinning = true;
+            
+        }
+    }
+
+    public void setReelData(List<int> symbols)
+    {
+        result_symbols = new List<int>();
+        result_symbols.Add(-1);
+        result_symbols.AddRange(symbols);
+        result_symbols.Add(-1);
     }
 
     public void hard_Stop()
@@ -239,12 +240,13 @@ public class reelManager : MonoBehaviour {
             spinning = false;
             anticipationActive = false;
             symbols_passed = 0;
-            //symbols_passed = max_symbols;
         }
     }
     
     private void shutItDown()
     {
+        OnReelStopped(new EventArgs());
+
         bounce = false;
         first_spin = true;
         spinning = false;
@@ -256,5 +258,15 @@ public class reelManager : MonoBehaviour {
         totalTime = 0;
         stoptime = 0;
         result_position = -1;
+        result_symbols = new List<int>();
+        //spin();
     }
+
+    public event EventHandler ReelStopped;
+    protected virtual void OnReelStopped(EventArgs e)
+    {
+        if (ReelStopped != null)
+            ReelStopped(this, e);
+    }
+
 }

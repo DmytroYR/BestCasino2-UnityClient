@@ -18,7 +18,6 @@ public class SymbolManager : MonoBehaviour {
         get 
         {
            return instance;
-            
         }
     }
 
