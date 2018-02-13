@@ -1,20 +1,33 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Assets.Scripts.VO;
+
 
 public class GameManager : MonoBehaviour {
 
     public SymbolManager symbolManager;
     public SpinManager playerSpinManager;
     public SpinManager[] socialSpinManagers;
-    
-    
+    public smartfoxproxy foxProxy;
+
+    public bool connectswitch = false;
+
+
 	// Use this for initialization
 	void Start () {
-		
-	}
+       
+       foxProxy.ConnectedEvent += OnFoxConnected;
+
+       foxProxy.Connect();
+
+    }
 	
+    void OnFoxConnected(object sender, System.EventArgs e)
+    {
+        Debug.Log("LOGIN");
+        foxProxy.Login();
+    }
+
     void SpinResultHandler()
     {
         //playerSpinManager.setResultData();
@@ -26,9 +39,5 @@ public class GameManager : MonoBehaviour {
         */
     }
 
-    
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
 }

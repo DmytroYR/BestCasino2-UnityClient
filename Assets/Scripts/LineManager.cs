@@ -1,7 +1,7 @@
-﻿using System;
+﻿using com.tangelogames.extensions.model.vo;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using Assets.Scripts.VO;
 using UnityEngine;
 
 public class LineManager : MonoBehaviour {

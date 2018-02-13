@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using Sfs2X.Protocol.Serialization;
+using System.Collections.Generic;
+using Sfs2X.Entities.Data;
 
-namespace Assets.Scripts.VO
+
+namespace com.tangelogames.extensions.model.vo
 {
-    public class LineWinResult
+    public class LineWinResult : SerializableSFSType 
     {
         public int lineNumber;
         public long wonAmount;

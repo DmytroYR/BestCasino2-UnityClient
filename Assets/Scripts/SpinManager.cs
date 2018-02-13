@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Assets.Scripts.VO;
+using Assets.Scripts.Tools;
+using com.tangelogames.extensions.model.vo;
 
 public class SpinManager : MonoBehaviour {
 
@@ -45,29 +46,33 @@ public class SpinManager : MonoBehaviour {
             reels[i].spin();
         }
 
-        SpinResultVO res = new SpinResultVO();
-        
-        setResultData();
+
+        SpinResultVO res = ResultSimulator.randomResult();
+
+        setResultData(res);
     }
 
+    
     public void setResultData(SpinResultVO result )
     {
         spin_result = result;
         
         // SYMULATING A 15 SYMBOLS LIST 
-        List<int> symbol_list = new List<int>();
-        for (int i = 0; i < 15; i++)
-        {
-            symbol_list.Add(Random.Range(0, 11));
-        }
-
-
-
+        
         int symbol_runner = 0;
         int reelDisplaySize = 3;
+
+
+        List<int> lst = new List<int>();
+        for (int i = 0; i < spin_result.symbolsList.Length; i++)
+        {
+            lst.Add(spin_result.symbolsList[i]);
+        }
+            
+
         for (int i = 0; i < reels.Length; i++)
         {
-            reels[i].setReelData(symbol_list.GetRange(symbol_runner, reelDisplaySize));
+            reels[i].setReelData(lst.GetRange(symbol_runner, reelDisplaySize));
             symbol_runner += reelDisplaySize;
         }
 
