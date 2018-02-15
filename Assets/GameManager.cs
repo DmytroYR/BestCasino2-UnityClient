@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour {
        
        foxProxy.ConnectedEvent += OnFoxConnected;
 
-       foxProxy.Connect();
+       //foxProxy.Connect();
 
     }
 	

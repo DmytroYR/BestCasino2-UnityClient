@@ -313,6 +313,8 @@
     <Compile Include="Assets\Editor\Deploy.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Material\Generic_Button_Final\button_main.shader" />
+    <None Include="Assets\Material\GleamSprites\Gleam.shader" />
     <None Include="Assets\README.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

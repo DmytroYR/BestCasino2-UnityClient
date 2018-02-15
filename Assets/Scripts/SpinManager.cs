@@ -39,6 +39,9 @@ public class SpinManager : MonoBehaviour {
         if (spinning)
             return;
 
+        stoppedReelsCount = 0; 
+        lineManager.stop();
+
         spin_result = null;
         spinning = true;
         for (int i = 0; i < reels.Length; i++)
@@ -100,6 +103,22 @@ public class SpinManager : MonoBehaviour {
 
     private void OnSpinFinished()
     {
+        spin_result.totalWon = 1;
+
+        spin_result.lines = new List<LineWinResult>();
+        LineWinResult line = new LineWinResult();
+        List<int> possible = new List<int> { 0,1,2,3,4,5,6,7,8};
+
+        for (int i = 0; i < Random.Range(2, 4); i++)
+        {
+            int index = Random.Range(0, possible.Count);
+            line.lineNumber = possible[index];
+            possible.RemoveAt(index);
+            line.streak = Random.Range(1, 6);
+            spin_result.lines.Add(line);
+            line = new LineWinResult();
+        }
+
         if (spin_result.totalWon > 0 )
         {
             lineManager.showLines(spin_result.lines);
